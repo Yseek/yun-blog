@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google"; 
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/Header"; // Header 컴포넌트 import
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        {/* ThemeProvider로 전체를 감싸줍니다. */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -26,12 +26,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="max-w-3xl mx-auto px-4">
-            <header>
-              {/* 여기에 나중에 헤더/내비게이션 바를 추가합니다. */}
-            </header>
+            <Header /> {/* Header 컴포넌트 추가 */}
             <main>{children}</main>
-            <footer>
-              {/* 여기에 나중에 푸터를 추가합니다. */}
+            <footer className="text-center text-muted-foreground py-8">
+              © {new Date().getFullYear()} Yun Blog. All rights reserved.
             </footer>
           </div>
         </ThemeProvider>

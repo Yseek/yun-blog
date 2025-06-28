@@ -1,15 +1,15 @@
-// tailwind.config.ts
-
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  darkMode: 'class', // ◀◀ 배열이 아닌 문자열로 수정
+  darkMode: 'class',
   content: [
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      // 이 부분을 비워두거나 삭제합니다.
+    },
   },
   plugins: [
     require('@tailwindcss/typography')
