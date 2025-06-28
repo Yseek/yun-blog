@@ -1,7 +1,10 @@
+"use client"; // Header 자체도 클라이언트 컴포넌트로 만드는 것이 안전합니다.
+
 import Link from 'next/link';
-import { ThemeToggle } from './ThemeToggle';
-import { SearchInput } from './SearchInput';
-import { Suspense } from 'react';
+import dynamic from 'next/dynamic'; // dynamic import를 가져옵니다.
+
+const SearchInput = dynamic(() => import('@/components/SearchInput').then(mod => mod.SearchInput), { ssr: false });
+const ThemeToggle = dynamic(() => import('@/components/ThemeToggle').then(mod => mod.ThemeToggle), { ssr: false });
 
 export function Header() {
   return (
@@ -22,9 +25,7 @@ export function Header() {
               Tags
             </Link>
           </nav>
-          <Suspense fallback={<div></div>}>
-            <SearchInput />
-          </Suspense>
+          <SearchInput />
           <ThemeToggle />
         </div>
       </div>
