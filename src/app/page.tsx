@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     // article 태그에 prose 클래스를 적용하여 내부의 HTML 요소들에 자동으로 스타일을 입힙니다.
