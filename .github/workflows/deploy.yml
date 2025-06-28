@@ -1,0 +1,69 @@
+# 워크플로우의 이름
+name: Deploy to GitHub Pages
+
+# 언제 이 워크플로우를 실행할 것인가
+on:
+  # 'main' 브랜치에 push 이벤트가 발생했을 때
+  push:
+    branches:
+      - main
+  # GitHub Actions 탭에서 수동으로 실행할 수도 있게 함
+  workflow_dispatch:
+
+# 이 워크플로우가 어떤 권한을 가질 것인가
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 어떤 작업(Job)들을 실행할 것인가
+jobs:
+  # 'build'라는 이름의 첫 번째 작업
+  build:
+    # 'ubuntu-latest'라는 가상 환경에서 실행
+    runs-on: ubuntu-latest
+    # 작업 단계(Step)들
+    steps:
+      # 1. 소스 코드 체크아웃 (내 리포지토리 코드를 가상 환경으로 가져옴)
+      - name: Checkout your repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js 환경 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # 프로젝트에 맞는 Node.js 버전 명시
+          cache: 'npm'
+
+      # 3. 의존성 설치 및 프로젝트 빌드
+      - name: Install, build, and test
+        run: |
+          npm install
+          npm run build
+
+      # 4. 빌드 결과물 업로드 (다음 작업에서 사용할 수 있도록)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  # 'deploy'라는 이름의 두 번째 작업
+  deploy:
+    # 'build' 작업이 성공적으로 끝나야만 실행됨
+    needs: build
+    # 배포를 위한 권한 설정
+    permissions:
+      pages: write
+      id-token: write
+    # 배포 환경 설정
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # 'ubuntu-latest' 가상 환경에서 실행
+    runs-on: ubuntu-latest
+    # 작업 단계들
+    steps:
+      # 1. 업로드된 결과물을 사용하여 GitHub Pages에 배포
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
