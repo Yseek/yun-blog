@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from './ThemeToggle';
 import { SearchInput } from './SearchInput';
+import { Suspense } from 'react';
 
 export function Header() {
   return (
@@ -21,7 +22,9 @@ export function Header() {
               Tags
             </Link>
           </nav>
-          <SearchInput />
+          <Suspense fallback={<div></div>}>
+            <SearchInput />
+          </Suspense>
           <ThemeToggle />
         </div>
       </div>
