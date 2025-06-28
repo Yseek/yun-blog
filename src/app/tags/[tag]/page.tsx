@@ -2,14 +2,22 @@ import { PostPreview } from '@/components/PostPreview';
 import { posts } from '@/posts';
 import type { Post } from '@/posts';
 
-// 페이지 컴포넌트가 받을 props 타입을 명시적으로 정의합니다.
 type Props = {
   params: {
     tag: string;
   };
 };
 
-// 동적 메타데이터 생성 함수에서도 동일한 Props 타입을 사용합니다.
+// 1. generateStaticParams 함수 추가
+// 이 함수는 빌드 시점에 모든 태그 경로를 미리 생성하도록 Next.js에 알려줍니다.
+export async function generateStaticParams() {
+  const allTags = [...new Set(posts.flatMap(post => post.tags))];
+  
+  return allTags.map(tag => ({
+    tag: encodeURIComponent(tag),
+  }));
+}
+
 export async function generateMetadata({ params }: Props) {
   const tag = decodeURIComponent(params.tag);
   return {
@@ -17,7 +25,6 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-// 페이지 컴포넌트에서도 명시적으로 정의된 Props 타입을 사용합니다.
 export default function TagPage({ params }: Props) {
   const tag = decodeURIComponent(params.tag);
   const filteredPosts = posts.filter(post => post.tags.includes(tag));
