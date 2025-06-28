@@ -10,15 +10,6 @@ export default function AboutPage() {
   return (
     <div className="py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl">
-            About Me
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-            끊임없이 배우고 성장하는 것을 즐기는 개발자입니다.
-          </p>
-        </div>
-
         <div className="mt-16 flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-12">
           <div className="md:w-1/3 flex justify-center">
             {/* 나중에 본인의 프로필 이미지로 교체하세요. 

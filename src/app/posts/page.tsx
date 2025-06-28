@@ -10,16 +10,7 @@ export const metadata: Metadata = {
 export default function PostsPage() {
   return (
     <div className="py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl">
-          All Posts
-        </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-          제가 작성한 모든 글들을 확인해보세요.
-        </p>
-      </div>
-      
-      <div>
+      <div className="space-y-8">
         {posts.map((post) => (
           <PostPreview key={post.id} post={post} />
         ))}
