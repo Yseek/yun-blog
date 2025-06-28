@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
    * 정적 사이트(Static Site)로 빌드하기 위한 설정입니다.
    * GitHub Pages는 정적 페이지만 호스팅할 수 있습니다.
    */
-  // output: 'export',
+  output: 'export',
   /**
    * GitHub Pages 배포를 위한 경로 설정입니다.
    * "https://<사용자이름>.github.io/<리포지토리이름>" 형태로 주소가 만들어지기 때문에,
