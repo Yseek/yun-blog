@@ -1,28 +1,20 @@
 "use client";
 
+import { Suspense } from 'react'; // Suspense를 import 합니다.
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link'; // <Link>를 다시 사용합니다.
 import { PostPreview } from '@/components/PostPreview';
 import { posts } from '@/posts';
 
-export default function TagsPage() {
-  const router = useRouter();
+// useSearchParams를 사용하는 실제 UI 로직을 별도의 컴포넌트로 분리합니다.
+function TagsPageContent() {
   const searchParams = useSearchParams();
-  
-  // URL 쿼리 파라미터에서 현재 선택된 태그를 가져옵니다.
   const selectedTag = searchParams.get('q');
-
-  // 모든 태그 목록을 미리 준비합니다.
   const allTags = [...new Set(posts.flatMap(post => post.tags))];
 
-  // 선택된 태그에 따라 보여줄 게시물을 필터링합니다.
   const filteredPosts = selectedTag
     ? posts.filter(post => post.tags.includes(selectedTag))
-    : posts; // 태그가 선택되지 않으면 모든 글을 보여줍니다.
-
-  const handleTagClick = (tag: string) => {
-    // 페이지를 새로고침하는 대신 URL만 변경합니다.
-    router.push(`/tags?q=${encodeURIComponent(tag)}`);
-  };
+    : posts;
 
   return (
     <div className="py-12">
@@ -30,12 +22,11 @@ export default function TagsPage() {
         <h1 className="text-4xl font-extrabold tracking-tight text-center text-primary sm:text-5xl">
           Tags
         </h1>
-        {/* 태그 목록 UI */}
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           {allTags.map(tag => (
-            <button
+            <Link // button 대신 Link를 사용해야 URL이 제대로 변경됩니다.
               key={tag}
-              onClick={() => handleTagClick(tag)}
+              href={`/tags?q=${encodeURIComponent(tag)}`}
               className={`px-4 py-2 rounded-full text-lg font-medium transition-colors
                 ${selectedTag === tag 
                   ? 'bg-primary text-primary-foreground' 
@@ -44,14 +35,11 @@ export default function TagsPage() {
               }
             >
               {tag}
-            </button>
+            </Link>
           ))}
         </div>
       </div>
-
       <hr className="my-12" />
-
-      {/* 게시물 목록 UI */}
       <div className="space-y-8">
         {filteredPosts.length > 0 ? (
           filteredPosts.map(post => (
@@ -62,5 +50,16 @@ export default function TagsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+
+// 이 부분이 페이지의 최종 형태가 됩니다.
+export default function TagsPage() {
+  return (
+    // Suspense로 감싸주기만 하면 됩니다.
+    <Suspense fallback={<div>Loading tags...</div>}>
+      <TagsPageContent />
+    </Suspense>
   );
 }
