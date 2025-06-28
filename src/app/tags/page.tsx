@@ -1,8 +1,6 @@
-"use client"; // 클라이언트 컴포넌트로 전환!
+"use client";
 
-import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { PostPreview } from '@/components/PostPreview';
 import { posts } from '@/posts';
 
