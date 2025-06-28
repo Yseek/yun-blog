@@ -3,12 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* 다크 모드를 위한 기본 배경/글자색 설정 */
-body {
-  @apply bg-white text-black;
-}
-
-.dark body {
-  @apply bg-black text-white;
-}
