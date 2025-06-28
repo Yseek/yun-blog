@@ -3,7 +3,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // 다크 모드 사용을 위해 필수
+  darkMode: "class", // 다크 모드 사용을 위해 필수
   content: [
     // 우리 프로젝트의 어떤 파일들을 스캔해서 Tailwind 클래스를 적용할지 경로를 지정합니다.
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
