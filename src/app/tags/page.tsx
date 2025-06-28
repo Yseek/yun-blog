@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from 'react'; // Suspense를 import 합니다.
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link'; // <Link>를 다시 사용합니다.
 import { PostPreview } from '@/components/PostPreview';
 import { posts } from '@/posts';
