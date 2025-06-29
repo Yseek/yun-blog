@@ -1,13 +1,22 @@
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
 export async function generateStaticParams() {
   const paths = getAllPostIds();
-  return paths.map(path => ({ id: path.params.id }));
+  return paths.map(path => ({
+    id: path.params.id,
+  }));
 }
 
-export default async function Post({ params }: { params: { id: string } }) {
-  const postData = await getPostData(params.id);
+export default async function Post({ params: paramsPromise }: Props) {
+  const params = await paramsPromise;
+  const { id } = params;
+
+  const postData = await getPostData(id);
 
   if (!postData) {
     notFound();
