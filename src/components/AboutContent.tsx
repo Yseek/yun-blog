@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 export function AboutContent() {
   return (
     <div className="py-12">
