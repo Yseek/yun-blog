@@ -24,7 +24,7 @@ export default function TagsContent() {
 
   return (
     <div className="py-12">
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
+        <div className="flex flex-wrap justify-center gap-4 mt-8 mb-12">
             {allTags.map(tag => (
             <Link
                 key={tag}

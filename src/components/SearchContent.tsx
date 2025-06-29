@@ -30,7 +30,6 @@ export default function SearchContent() {
 
   return (
     <div className="py-12">
-      {/* 이 부분의 구조를 더 명확하게 수정했습니다. */}
       <div className="mb-12 text-center">
         <div className="mb-12">
             <p className="text-center text-lg text-muted-foreground">
