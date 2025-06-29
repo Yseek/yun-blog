@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { ProfileCard } from '@/components/ProfileCard';
 import { AboutContent } from '@/components/AboutContent';
 import { PostsList } from '@/components/PostsList';
+import type { Post } from '@/lib/posts';
 
-export default function HomePage() {
+export default function HomeContent({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const view = searchParams.get('view');
 
@@ -17,22 +18,22 @@ export default function HomePage() {
       <ProfileCard />
 
       <div className="flex justify-center border-b mb-8">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className={`px-6 py-3 font-semibold border-b-2 transition-colors
-            ${!isAboutView 
-              ? 'border-primary text-primary' 
+            ${!isAboutView
+              ? 'border-primary text-primary'
               : 'border-transparent text-muted-foreground hover:text-primary'
             }`
           }
         >
           POSTS
         </Link>
-        <Link 
+        <Link
           href="/?view=about"
           className={`px-6 py-3 font-semibold border-b-2 transition-colors
-            ${isAboutView 
-              ? 'border-primary text-primary' 
+            ${isAboutView
+              ? 'border-primary text-primary'
               : 'border-transparent text-muted-foreground hover:text-primary'
             }`
           }
@@ -40,10 +41,9 @@ export default function HomePage() {
           ABOUT
         </Link>
       </div>
-      
-      {/* 3. 탭에 따라 동적으로 바뀌는 컨텐츠 */}
+
       <div>
-        {isAboutView ? <AboutContent /> : <PostsList />}
+        {isAboutView ? <AboutContent /> : <PostsList posts={posts} />}
       </div>
     </div>
   );

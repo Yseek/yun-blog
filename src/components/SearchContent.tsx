@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { PostPreview } from '@/components/PostPreview';
-import { posts } from '@/posts';
+import type { Post } from '@/lib/posts'; // 타입만 import
 
-export default function SearchContent() {
+// props로 posts를 받도록 수정
+export default function SearchContent({ posts }: { posts: Post[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -14,7 +15,13 @@ export default function SearchContent() {
   // 동적 검색을 위한 디바운싱
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace(`${pathname}?q=${query}`);
+      const params = new URLSearchParams(window.location.search);
+      if (query) {
+        params.set('q', query);
+      } else {
+        params.delete('q');
+      }
+      router.replace(`${pathname}?${params.toString()}`);
     }, 300);
 
     return () => clearTimeout(timer);

@@ -26,7 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="max-w-3xl mx-auto px-4">
-            <Header /> {/* Header 컴포넌트 추가 */}
+            <Header />
             <main>{children}</main>
             <footer className="text-center text-muted-foreground py-8">
               © {new Date().getFullYear()} Yun Blog. All rights reserved.

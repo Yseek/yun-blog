@@ -3,14 +3,15 @@
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { PostPreview } from '@/components/PostPreview';
-import { posts } from '@/posts';
+import type { Post } from '@/lib/posts'; // 타입만 import
 
-export default function TagsContent() {
+// props로 posts를 받도록 수정
+export default function TagsContent({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const selectedTag = searchParams.get('q');
-  const allTags = [...new Set(posts.flatMap(post => post.tags))];
 
-  // 각 태그의 게시물 개수를 계산합니다.
+  // allTags와 tagCounts는 props로 받은 posts를 기반으로 계산
+  const allTags = [...new Set(posts.flatMap(post => post.tags))];
   const tagCounts: { [key: string]: number } = {};
   posts.forEach(post => {
     post.tags.forEach(tag => {
