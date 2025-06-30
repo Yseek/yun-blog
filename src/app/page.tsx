@@ -1,13 +1,15 @@
 import { Suspense } from 'react';
 import HomeContent from '@/components/HomeContent';
-import { getSortedPostsData, Post } from '@/lib/posts'; // Post 타입을 import 합니다.
+// getAboutContent 함수를 추가로 import 합니다.
+import { getSortedPostsData, getAboutContent, Post } from '@/lib/posts';
 
-export default function HomePage() {
-  const posts: Post[] = getSortedPostsData(); // 서버 컴포넌트에서 데이터 페칭
+export default async function HomePage() {
+  const posts: Post[] = getSortedPostsData();
+  const aboutData = await getAboutContent();
 
   return (
     <Suspense fallback={<div>Loading home...</div>}>
-      <HomeContent posts={posts} />
+      <HomeContent posts={posts} aboutContentHtml={aboutData.contentHtml} />
     </Suspense>
   );
 }

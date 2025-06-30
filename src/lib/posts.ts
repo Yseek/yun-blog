@@ -19,18 +19,16 @@ export interface Post {
 export function getSortedPostsData() {
   // posts 디렉터리의 파일 이름들을 가져옵니다.
   const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    // '.md' 확장자를 제거하여 id로 사용합니다.
+  const allPostsData = fileNames
+    .filter((fileName) => fileName !== 'about.md')
+    .map((fileName) => {
     const id = fileName.replace(/\.md$/, '');
 
-    // 마크다운 파일을 문자열로 읽어옵니다.
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-    // gray-matter를 사용하여 메타데이터를 파싱합니다.
     const matterResult = matter(fileContents);
 
-    // 데이터를 id와 함께 합칩니다.
     return {
       id,
       ...(matterResult.data as { title: string; date: string; summary: string; tags: string[] }),
@@ -45,6 +43,20 @@ export function getSortedPostsData() {
       return -1;
     }
   });
+}
+
+export async function getAboutContent() {
+  const fullPath = path.join(postsDirectory, 'about.md');
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const matterResult = matter(fileContents);
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
+  return {
+    contentHtml,
+    ...(matterResult.data as { title: string }),
+  };
 }
 
 export async function getPostData(id: string) {
