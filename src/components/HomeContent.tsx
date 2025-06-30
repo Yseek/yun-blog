@@ -1,30 +1,33 @@
 "use client";
 
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from 'react';
 import { ProfileCard } from '@/components/ProfileCard';
 import { AboutContent } from '@/components/AboutContent';
 import { PostsList } from '@/components/PostsList';
 import type { Post } from '@/lib/posts';
 
 export default function HomeContent({ posts, aboutContentHtml }: { posts: Post[], aboutContentHtml: string }) {
-  const searchParams = useSearchParams();
-  const view = searchParams.get('view');
-  const isAboutView = view === 'about';
+  const [view, setView] = useState('posts');
 
   return (
     <div>
       <ProfileCard />
       <div className="flex justify-center border-b mb-8">
-        <Link href="/" className={`px-6 py-3 font-semibold border-b-2 transition-colors ${!isAboutView ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}>
+        <button 
+          onClick={() => setView('posts')}
+          className={`px-6 py-3 font-semibold border-b-2 transition-colors ${view === 'posts' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}
+        >
           POSTS
-        </Link>
-        <Link href="/?view=about" className={`px-6 py-3 font-semibold border-b-2 transition-colors ${isAboutView ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}>
+        </button>
+        <button 
+          onClick={() => setView('about')}
+          className={`px-6 py-3 font-semibold border-b-2 transition-colors ${view === 'about' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}
+        >
           ABOUT
-        </Link>
+        </button>
       </div>
       <div>
-        {isAboutView ? <AboutContent contentHtml={aboutContentHtml} /> : <PostsList posts={posts} />}
+        {view === 'about' ? <AboutContent contentHtml={aboutContentHtml} /> : <PostsList posts={posts} />}
       </div>
     </div>
   );
