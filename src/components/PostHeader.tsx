@@ -6,7 +6,7 @@ export function PostHeader({ post }: { post: Post }) {
     <div>
       <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
       <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-3 mt-4">
-        <Link href="/?view=about" className="font-semibold hover:underline text-foreground">
+        <Link href="/" className="font-semibold hover:underline text-foreground">
           Yun
         </Link>
         <span>{post.date}</span>
@@ -22,7 +22,6 @@ export function PostHeader({ post }: { post: Post }) {
           </Link>
         ))}
       </div>
-      <hr className="border-muted/10 mt-4" />
     </div>
   );
 }

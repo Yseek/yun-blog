@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography"; /* 이 줄을 추가하세요 */
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-background: oklch(100% 0 0);
@@ -23,13 +23,14 @@
     --color-muted: oklch(30.34% 0.035 264.24);
     --color-muted-foreground: oklch(74.96% 0.009 264.12);
   }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  html {
+    overflow-y: scroll;
+  }
 }
 
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-}
-
-html {
-  overflow-y: scroll;
-}

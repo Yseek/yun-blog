@@ -25,11 +25,14 @@ export default async function Post({ params: paramsPromise }: Props) {
   }
 
   return (
-    <article className="prose dark:prose-invert max-w-none py-12">
+    <article className="py-12">
       <PostHeader post={postData} />
-      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-      <ProfileCard />
-      <hr className="border-muted/10 mt-2" />
+      <div className="prose dark:prose-invert max-w-none mt-8" 
+        dangerouslySetInnerHTML={{ __html: postData.contentHtml }} 
+      />
+      <div className='mt-16'>
+        <ProfileCard />
+      </div>
     </article>
   );
 }

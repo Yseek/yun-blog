@@ -18,7 +18,6 @@ export default function HomeContent({
 
   return (
     <div>
-      {/* 프로필 카드와 탭은 기존 레이아웃을 그대로 유지합니다. */}
       <ProfileCard />
       <div className="flex justify-center border-b mb-8">
         <button
