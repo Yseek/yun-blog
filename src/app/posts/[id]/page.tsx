@@ -1,3 +1,5 @@
+import { PostHeader } from '@/components/PostHeader';
+import { ProfileCard } from '@/components/ProfileCard';
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
@@ -24,9 +26,10 @@ export default async function Post({ params: paramsPromise }: Props) {
 
   return (
     <article className="prose dark:prose-invert max-w-none py-12">
-      <h1 className="text-3xl font-bold mb-2">{postData.title}</h1>
-      <p className="text-muted-foreground text-sm mb-8">{postData.date}</p>
+      <PostHeader post={postData} />
       <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      <ProfileCard />
+      <hr className="border-muted/30" />
     </article>
   );
 }
