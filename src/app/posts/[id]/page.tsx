@@ -29,7 +29,7 @@ export default async function Post({ params: paramsPromise }: Props) {
       <PostHeader post={postData} />
       <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
       <ProfileCard />
-      <hr className="border-muted/30" />
+      <hr className="border-muted/10 mt-2" />
     </article>
   );
 }
