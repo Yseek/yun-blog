@@ -17,7 +17,7 @@ export default function HomeContent({ posts, aboutContentHtml }: { posts: Post[]
           onClick={() => setView('posts')}
           className={`px-6 py-3 font-semibold border-b-2 transition-colors ${view === 'posts' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}
         >
-          POSTS
+          POSTS ({posts.length})
         </button>
         <button 
           onClick={() => setView('about')}
