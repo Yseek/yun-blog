@@ -3,6 +3,7 @@ import { ProfileCard } from '@/components/ProfileCard';
 import { Toc } from '@/components/Toc';
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { notFound } from 'next/navigation';
+import Giscus from '@/components/Giscus';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -36,6 +37,9 @@ export default async function Post({ params: paramsPromise }: Props) {
         />
         <div className='mt-16'>
           <ProfileCard />
+        </div>
+        <div className="mt-16">
+          <Giscus />
         </div>
       </article>
       <Toc headings={postData.headings || []} proseContainerId="prose-content" />
