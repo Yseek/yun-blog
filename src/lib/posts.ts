@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+import { remark } from "remark";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import rehypePrettyCode from "rehype-pretty-code";
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
@@ -46,12 +48,16 @@ export function getSortedPostsData() {
 }
 
 export async function getAboutContent() {
-  const fullPath = path.join(postsDirectory, 'about.md');
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fullPath = path.join(postsDirectory, "about.md");
+  const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
+
   const processedContent = await remark()
-    .use(html)
+    .use(remarkRehype)
+    .use(rehypePrettyCode)
+    .use(rehypeStringify)
     .process(matterResult.content);
+
   const contentHtml = processedContent.toString();
   return {
     contentHtml,
@@ -61,22 +67,27 @@ export async function getAboutContent() {
 
 export async function getPostData(id: string) {
   const fullPath = path.join(postsDirectory, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fileContents = fs.readFileSync(fullPath, "utf8");
 
-  // gray-matter를 사용하여 메타데이터를 파싱합니다.
   const matterResult = matter(fileContents);
 
-  // remark를 사용하여 마크다운을 HTML로 변환합니다.
   const processedContent = await remark()
-    .use(html)
+    .use(remarkRehype)
+    .use(rehypePrettyCode)
+    .use(rehypeStringify)
     .process(matterResult.content);
+
   const contentHtml = processedContent.toString();
 
-  // 데이터를 id 및 contentHtml과 함께 합칩니다.
   return {
     id,
     contentHtml,
-    ...(matterResult.data as { title: string; date: string; summary: string; tags: string[] }),
+    ...(matterResult.data as {
+      title: string;
+      date: string;
+      summary: string;
+      tags: string[];
+    }),
   };
 }
 
