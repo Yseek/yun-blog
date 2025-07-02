@@ -38,6 +38,7 @@ export default async function Post({ params: paramsPromise }: Props) {
         <div className='mt-16'>
           <ProfileCard />
         </div>
+        <hr className='text-muted-foreground mb-4'/>
         <div className="mt-16">
           <Giscus />
         </div>
