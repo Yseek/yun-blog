@@ -51,8 +51,8 @@
   .prose :not(pre) > code,
   .prose code.language-text {
     @apply px-1 py-0.5 rounded font-mono font-medium;
-    background: var(--color-muted);
-    color: var(--color-primary);
+    background: var(--color-muted) !important;
+    color: var(--color-primary) !important;
     font-size: 0.98em;
   }
 
