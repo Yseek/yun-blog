@@ -16,7 +16,7 @@ export function Toc({ headings, proseContainerId }: { headings: Heading[]; prose
 
     const calculatePosition = () => {
       const proseRect = proseContainer.getBoundingClientRect();
-      const leftPosition = proseRect.right + 48;
+      const leftPosition = proseRect.right + 60;
       
       if (leftPosition + 256 < window.innerWidth) {
         setPositionStyle({
