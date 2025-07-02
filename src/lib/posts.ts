@@ -103,10 +103,20 @@ export async function getPostData(id: string) {
 
   const contentHtml = processedContent.toString();
 
+  // 이전/다음 게시물 정보 추가
+  const allPosts = getSortedPostsData();
+  const postIndex = allPosts.findIndex((p) => p.id === id);
+
+  // 날짜 내림차순 정렬이므로, index가 작을수록 최신 게시물입니다.
+  const nextPost = postIndex > 0 ? allPosts[postIndex - 1] : null;
+  const previousPost = postIndex < allPosts.length - 1 ? allPosts[postIndex + 1] : null;
+
   return {
     id,
     contentHtml,
     headings, // 추출한 headings 반환
+    previousPost,
+    nextPost,
     ...(matterResult.data as {
       title: string;
       date: string;

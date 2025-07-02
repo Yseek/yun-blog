@@ -4,6 +4,7 @@ import { Toc } from '@/components/Toc';
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import Giscus from '@/components/Giscus';
+import { PostNavigation } from '@/components/PostNavigation';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -35,11 +36,12 @@ export default async function Post({ params: paramsPromise }: Props) {
           className="prose dark:prose-invert max-w-none mt-8"
           dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
         />
-        <div className='mt-16'>
+        <PostNavigation previousPost={postData.previousPost} nextPost={postData.nextPost} />
+        <div className='mt-4'>
           <ProfileCard />
         </div>
         <hr className='text-muted-foreground mb-4'/>
-        <div className="mt-16">
+        <div className="mt-8">
           <Giscus />
         </div>
       </article>
