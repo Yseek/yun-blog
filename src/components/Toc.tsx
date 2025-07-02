@@ -11,17 +11,17 @@ export function Toc({ headings, proseContainerId }: { headings: Heading[]; prose
 
   useEffect(() => {
     const proseContainer = document.getElementById(proseContainerId);
-    console.log("proseContainer" , proseContainer);
     if (!proseContainer) return;
 
     const calculatePosition = () => {
       const proseRect = proseContainer.getBoundingClientRect();
+      const topPosition = proseRect.top;
       const leftPosition = proseRect.right + 60;
       
       if (leftPosition + 256 < window.innerWidth) {
         setPositionStyle({
           position: 'fixed',
-          top: '6rem',
+          top: `${topPosition}px`,
           left: `${leftPosition}px`,
           display: 'block',
         });
