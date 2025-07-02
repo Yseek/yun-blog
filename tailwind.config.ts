@@ -7,12 +7,8 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      // 이 부분을 비워두거나 삭제합니다.
-    },
+    extend: {},
   },
-  plugins: [
-    require('@tailwindcss/typography')
-  ],
+  plugins: [],
 }
 export default config

@@ -32,5 +32,29 @@
   html {
     overflow-y: scroll;
   }
+
+  .dark .prose h1,
+  .dark .prose h2,
+  .dark .prose h3,
+  .dark .prose h4,
+  .dark .prose h5,
+  .dark .prose h6 {
+    color: var(--color-primary) !important;
+  }
+
+  .dark .prose p,
+  .dark .prose li,
+  .dark .prose strong {
+    color: var(--color-foreground) !important;
+  }
+  
+  .dark .prose a {
+    color: var(--color-primary) !important;
+  }
+
+  .dark .prose blockquote {
+    color: var(--color-muted-foreground) !important;
+    border-left-color: var(--color-primary) !important;
+  }
 }
 
