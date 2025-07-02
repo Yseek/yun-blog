@@ -5,8 +5,18 @@ import { remark } from "remark";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from 'rehype-slug';
+import { visit } from 'unist-util-visit';
+import { toText } from 'hast-util-to-text';
+import { type Element, type Root } from 'hast';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
+
+export interface Heading {
+  level: number;
+  id: string;
+  text: string;
+}
 
 export interface Post {
   id: string;
@@ -68,13 +78,27 @@ export async function getAboutContent() {
 export async function getPostData(id: string) {
   const fullPath = path.join(postsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
-
   const matterResult = matter(fileContents);
 
+  // 헤딩 목록을 저장할 배열
+  const headings: Heading[] = [];
+
   const processedContent = await remark()
-    .use(remarkRehype)
-    .use(rehypePrettyCode)
-    .use(rehypeStringify)
+    .use(remarkRehype, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
+    .use(rehypeSlug) // 헤딩에 id 추가
+    .use(() => (tree: Root) => { // 헤딩 추출 로직 추가
+      visit(tree, 'element', (node: Element) => {
+        if (['h1', 'h2', 'h3'].includes(node.tagName)) {
+          headings.push({
+            level: parseInt(node.tagName.substring(1), 10),
+            id: node.properties?.id as string,
+            text: toText(node),
+          });
+        }
+      });
+    })
+    .use(rehypePrettyCode) // 옵션 전달 방식 수정
+    .use(rehypeStringify, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
     .process(matterResult.content);
 
   const contentHtml = processedContent.toString();
@@ -82,6 +106,7 @@ export async function getPostData(id: string) {
   return {
     id,
     contentHtml,
+    headings, // 추출한 headings 반환
     ...(matterResult.data as {
       title: string;
       date: string;
