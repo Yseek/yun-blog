@@ -26,20 +26,19 @@ export default async function Post({ params: paramsPromise }: Props) {
   }
 
   return (
-    <article className="py-12">
-      <PostHeader post={postData} />
-      <div className="relative">
+    <div>
+      <article className="py-12">
+        <PostHeader post={postData} />
         <div 
+          id="prose-content"
           className="prose dark:prose-invert max-w-none mt-8"
           dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
         />
-        <div className="absolute top-0 left-full ml-12 w-64 hidden xl:block">
-          <Toc headings={postData.headings || []} />
+        <div className='mt-16'>
+          <ProfileCard />
         </div>
-      </div>
-      <div className='mt-16'>
-        <ProfileCard />
-      </div>
-    </article>
+      </article>
+      <Toc headings={postData.headings || []} proseContainerId="prose-content" />
+    </div>
   );
 }
