@@ -4,14 +4,14 @@ import type { Post } from '@/lib/posts';
 export function PostHeader({ post }: { post: Post }) {
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
-      <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-3 mt-4">
+      <h1 className="text-5xl font-bold mb-3">{post.title}</h1>
+      <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-6 mt-6">
         <Link href="/" className="font-semibold hover:underline text-foreground">
           Yun
         </Link>
         <span>{post.date}</span>
       </div>
-      <div className="flex flex-wrap gap-2 mt-4">
+      <div className="flex flex-wrap gap-2 mt-6 mb-6">
         {post.tags.map((tag) => (
           <Link
             key={tag}
@@ -22,6 +22,7 @@ export function PostHeader({ post }: { post: Post }) {
           </Link>
         ))}
       </div>
+      <hr className='text-muted-foreground mb-4'/>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-// Post 인터페이스 정의가 필요합니다.
 export interface Post {
     id: string;
     title: string;
@@ -12,7 +11,6 @@ export interface Post {
 export function PostPreview({ post }: { post: Post }) {
   return (
     <article>
-      {/* id를 기반으로 동적 경로를 생성합니다. */}
       <Link href={`/posts/${post.id}`} className="hover:underline">
         <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
       </Link>
