@@ -24,6 +24,38 @@
     --color-muted-foreground: oklch(74.96% 0.009 264.12);
   }
 
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    color: var(--color-primary) !important;
+  }
+
+  .prose p,
+  .prose li,
+  .prose strong {
+    color: var(--color-foreground) !important;
+  }
+  
+  .prose a {
+    color: var(--color-primary) !important;
+  }
+
+  .prose blockquote {
+    color: var(--color-muted-foreground) !important;
+    border-left-color: var(--color-primary) !important;
+  }
+
+  .prose :not(pre) > code,
+  .prose code.language-text {
+    @apply px-1 py-0.5 rounded font-mono font-medium;
+    background: var(--color-muted);
+    color: var(--color-primary);
+    font-size: 0.98em;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -32,6 +64,11 @@
   html {
     overflow-y: scroll;
   }
+
+
+}
+
+@layer base {
 
   .dark .prose h1,
   .dark .prose h2,
@@ -56,5 +93,15 @@
     color: var(--color-muted-foreground) !important;
     border-left-color: var(--color-primary) !important;
   }
+
+  .dark .prose :not(pre) > code,
+  .dark .prose code.language-text {
+    background: var(--color-muted) !important;
+    color: var(--color-primary) !important;
+  }
 }
 
+.prose :where(code):not(:where(pre, pre *))::before,
+.prose :where(code):not(:where(pre, pre *))::after {
+  content: none !important;
+}
