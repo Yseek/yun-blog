@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import profileImage from '@/images/profile.png';
+import profileImage from '../../public/images/profile/profile.png';
 
 export function ProfileCard() {
   return (
