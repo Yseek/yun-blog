@@ -6,6 +6,8 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import { visit } from 'unist-util-visit';
 import { toText } from 'hast-util-to-text';
 import { type Element, type Root, type Text } from 'hast';
@@ -32,9 +34,9 @@ function rehypeAutoLink() {
   const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;
 
   return (tree: Root) => {
-    // <a> 태그를 제외한 모든 'element' 노드를 방문합니다.
+    
     visit(tree, 'element', (element: Element) => {
-      if (element.tagName === 'a' || element.tagName === 'figcaption' || !element.children) {
+      if (['a', 'pre', 'code', 'figcaption'].includes(element.tagName) || !element.children) {
         return;
       }
 
@@ -178,7 +180,9 @@ export async function getPostData(id: string) {
   const headings: Heading[] = [];
 
   const processedContent = await remark()
+    .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
+    .use(rehypeRaw)
     .use(rehypeSlug) // 헤딩에 id 추가
     .use(() => (tree: Root) => { // 헤딩 추출 로직 추가
       visit(tree, 'element', (node: Element) => {
@@ -191,10 +195,10 @@ export async function getPostData(id: string) {
         }
       });
     })
-    .use(rehypeFigure) // 새로 추가한 플러그인을 여기에 삽입합니다.
+    .use(rehypeFigure) 
     .use(rehypeAutoLink)
-    .use(rehypePrettyCode) // 옵션 전달 방식 수정
-    .use(rehypeStringify, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
+    .use(rehypePrettyCode)
+    .use(rehypeStringify)
     .process(matterResult.content);
 
   const contentHtml = processedContent.toString();
