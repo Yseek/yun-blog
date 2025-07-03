@@ -28,6 +28,37 @@ export interface Post {
   contentHtml?: string; 
 }
 
+function rehypeFigure() {
+  return (tree: Root) => {
+    visit(tree, { tagName: 'p' }, (node: Element) => {
+      if (node.children.length === 1 && node.children[0].type === 'element' && node.children[0].tagName === 'img') {
+        const img = node.children[0];
+        const alt = img.properties?.alt as string || '';
+        
+        if (alt) {
+          const figure = {
+            type: 'element',
+            tagName: 'figure',
+            properties: { className: ['flex', 'flex-col', 'items-center', 'my-6'] },
+            children: [
+              img,
+              {
+                type: 'element',
+                tagName: 'figcaption',
+                properties: { className: ['text-sm', 'text-center', 'text-muted-foreground', 'mt-2'] },
+                children: [{ type: 'text', value: alt }]
+              }
+            ]
+          };
+
+          // p 태그를 figure 태그로 교체
+          Object.assign(node, figure);
+        }
+      }
+    });
+  };
+}
+
 export function getSortedPostsData() {
   // posts 디렉터리의 파일 이름들을 가져옵니다.
   const fileNames = fs.readdirSync(postsDirectory);
@@ -97,6 +128,7 @@ export async function getPostData(id: string) {
         }
       });
     })
+    .use(rehypeFigure) // 새로 추가한 플러그인을 여기에 삽입합니다.
     .use(rehypePrettyCode) // 옵션 전달 방식 수정
     .use(rehypeStringify, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
     .process(matterResult.content);
