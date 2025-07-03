@@ -25,27 +25,39 @@ export default function TagsContent({ posts }: { posts: Post[] }) {
 
   return (
     <div className="py-12">
-        <div className="flex flex-wrap justify-center gap-4 mt-8 mb-12">
-            {allTags.map(tag => (
-            <Link
-                key={tag}
-                href={`/tags?q=${encodeURIComponent(tag)}`}
-                className={`px-4 py-2 rounded-full text-lg font-medium transition-colors
-                ${selectedTag === tag
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-muted-foreground hover:bg-primary/80 hover:text-primary-foreground'
-                }`
-                }
-            >
-                {tag} ({tagCounts[tag]})
-            </Link>
-            ))}
-        </div>
-        <div className="space-y-8">
-            {filteredPosts.map(post => (
-                <PostPreview key={post.id} post={post} />
-            ))}
-        </div>
+      <div className="mb-12">
+        {selectedTag ? (
+          <h1 className="text-2xl font-bold text-center">
+            # {selectedTag}
+            <span className="text-2xl font-normal text-muted-foreground ml-2">({filteredPosts.length})</span>
+          </h1>
+        ) : (
+          <h1 className="text-2xl font-bold text-center">
+            Tags <span className="text-2xl font-normal text-muted-foreground ml-2">({allTags.length})</span>
+          </h1>
+        )}
+      </div>
+      <div className="flex flex-wrap justify-center gap-4 mt-8 mb-12">
+        {allTags.map(tag => (
+        <Link
+          key={tag}
+          href={`/tags?q=${encodeURIComponent(tag)}`}
+          className={`px-4 py-2 rounded-full text-lg font-medium transition-colors
+          ${selectedTag === tag
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-muted text-muted-foreground hover:bg-primary/80 hover:text-primary-foreground'
+          }`
+          }
+        >
+          {tag} ({tagCounts[tag]})
+        </Link>
+        ))}
+      </div>
+      <div className="space-y-8">
+        {filteredPosts.map(post => (
+          <PostPreview key={post.id} post={post} />
+        ))}
+      </div>
     </div>
   );
 }
