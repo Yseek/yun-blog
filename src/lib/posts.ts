@@ -8,7 +8,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from 'rehype-slug';
 import { visit } from 'unist-util-visit';
 import { toText } from 'hast-util-to-text';
-import { type Element, type Root } from 'hast';
+import { type Element, type Root, type Text } from 'hast';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
@@ -26,6 +26,71 @@ export interface Post {
   tags: string[];
   // contentHtml은 getPostData에서만 사용되므로 선택적으로 포함할 수 있습니다.
   contentHtml?: string; 
+}
+
+function rehypeAutoLink() {
+  const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/gi;
+
+  return (tree: Root) => {
+    // <a> 태그를 제외한 모든 'element' 노드를 방문합니다.
+    visit(tree, 'element', (element: Element) => {
+      if (element.tagName === 'a' || element.tagName === 'figcaption' || !element.children) {
+        return;
+      }
+
+      const newChildren: (Element | Text)[] = [];
+      let madeChanges = false;
+
+      for (const child of element.children) {
+        // 텍스트 노드만 처리합니다.
+        if (child.type === 'text') {
+          const text = child.value;
+          urlRegex.lastIndex = 0; // 정규식 재사용을 위해 인덱스 초기화
+
+          if (urlRegex.test(text)) {
+            madeChanges = true;
+            urlRegex.lastIndex = 0; // exec를 위해 다시 초기화
+            let lastIndex = 0;
+            let match;
+
+            while ((match = urlRegex.exec(text)) !== null) {
+              // 링크 앞의 텍스트 추가
+              if (match.index > lastIndex) {
+                newChildren.push({ type: 'text', value: text.slice(lastIndex, match.index) });
+              }
+
+              // a 태그 추가
+              const url = match[0];
+              newChildren.push({
+                type: 'element',
+                tagName: 'a',
+                properties: { href: url, target: '_blank', rel: 'noopener noreferrer' },
+                children: [{ type: 'text', value: url }]
+              });
+
+              lastIndex = urlRegex.lastIndex;
+            }
+
+            // 링크 뒤의 나머지 텍스트 추가
+            if (lastIndex < text.length) {
+              newChildren.push({ type: 'text', value: text.slice(lastIndex) });
+            }
+          } else {
+            // URL이 없는 텍스트 노드는 그대로 추가
+            newChildren.push(child);
+          }
+        } else {
+          // 텍스트가 아닌 노드는 그대로 추가
+          newChildren.push(child as Element);
+        }
+      }
+
+      // 변경된 사항이 있을 경우에만 자식 노드 배열을 교체
+      if (madeChanges) {
+        element.children = newChildren;
+      }
+    });
+  };
 }
 
 function rehypeFigure() {
@@ -51,7 +116,6 @@ function rehypeFigure() {
             ]
           };
 
-          // p 태그를 figure 태그로 교체
           Object.assign(node, figure);
         }
       }
@@ -111,7 +175,6 @@ export async function getPostData(id: string) {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
 
-  // 헤딩 목록을 저장할 배열
   const headings: Heading[] = [];
 
   const processedContent = await remark()
@@ -129,6 +192,7 @@ export async function getPostData(id: string) {
       });
     })
     .use(rehypeFigure) // 새로 추가한 플러그인을 여기에 삽입합니다.
+    .use(rehypeAutoLink)
     .use(rehypePrettyCode) // 옵션 전달 방식 수정
     .use(rehypeStringify, { allowDangerousHtml: true }) // allowDangerousHtml 옵션 추가
     .process(matterResult.content);
