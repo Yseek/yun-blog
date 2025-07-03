@@ -56,6 +56,14 @@
     font-size: 0.98em;
   }
 
+  .prose table {
+    color: var(--color-primary) !important;
+  }
+
+  .prose table th{
+    color: var(--color-primary) !important;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
