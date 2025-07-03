@@ -19,7 +19,7 @@ export default function HomeContent({
   return (
     <div>
       <ProfileCard />
-      <div className="flex justify-center border-b mb-8">
+      <div className="flex justify-center border-b border-muted-foreground/20 mb-8">
         <button
           onClick={() => setView('posts')}
           className={`px-6 py-3 font-semibold border-b-2 transition-colors ${view === 'posts' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-primary'}`}

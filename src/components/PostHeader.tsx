@@ -22,7 +22,7 @@ export function PostHeader({ post }: { post: Post }) {
           </Link>
         ))}
       </div>
-      <hr className='text-muted-foreground mb-4'/>
+      <hr className='border-muted-foreground/20 mb-4'/>
     </div>
   );
 }
