@@ -4,7 +4,7 @@ import type { Post } from '@/lib/posts';
 export function PostHeader({ post }: { post: Post }) {
   return (
     <div>
-      <h1 className="text-5xl font-bold mb-3">{post.title}</h1>
+      <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
       <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-6 mt-6">
         <Link href="/" className="font-semibold hover:underline text-foreground">
           Yun
