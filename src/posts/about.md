@@ -1,7 +1,6 @@
 ---
 title: 'About Me'
 date: ''
-summary: '자기소개'
 tags: []
 ---
 

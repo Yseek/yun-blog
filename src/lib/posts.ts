@@ -24,9 +24,8 @@ export interface Post {
   id: string;
   title: string;
   date: string;
-  summary: string;
   tags: string[];
-  // contentHtml은 getPostData에서만 사용되므로 선택적으로 포함할 수 있습니다.
+  summary?: string;
   contentHtml?: string; 
 }
 
@@ -138,9 +137,15 @@ export function getSortedPostsData() {
 
     const matterResult = matter(fileContents);
 
+    const processor = remark().use(remarkGfm).use(remarkRehype);
+    const mdastTree = processor.parse(matterResult.content);
+    const hastTree = processor.runSync(mdastTree) as Root;
+    const summary = `${toText(hastTree).substring(0, 200)}...`;
+
     return {
       id,
-      ...(matterResult.data as { title: string; date: string; summary: string; tags: string[] }),
+      summary,
+      ...(matterResult.data as { title: string; date: string; tags: string[] }),
     };
   });
 
