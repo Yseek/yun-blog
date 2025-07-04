@@ -5,7 +5,6 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { PostPreview } from '@/components/PostPreview';
 import type { Post } from '@/lib/posts'; // 타입만 import
 
-// props로 posts를 받도록 수정
 export default function SearchContent({ posts }: { posts: Post[] }) {
   const router = useRouter();
   const pathname = usePathname();

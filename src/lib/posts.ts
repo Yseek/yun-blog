@@ -25,7 +25,7 @@ export interface Post {
   title: string;
   date: string;
   tags: string[];
-  summary?: string;
+  summary: string;
   contentHtml?: string; 
 }
 
