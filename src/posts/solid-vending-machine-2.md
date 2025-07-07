@@ -200,4 +200,5 @@ public void selectItem(String itemName) {
 - [[SOLID 원칙 정복기] 1편: 첫걸음, 거대한 클래스 만들기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-1)  
 ...  
 - [[SOLID 원칙 정복기] 3편: OCP로 신상 음료 출시하기 (feat. 추상화)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-3)
+- [[SOLID 원칙 정복기] 4편: 그 상속, 정말 괜찮을까? (LSP)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-4)
 ---
