@@ -134,4 +134,5 @@ void extendWithNewItem() {
 - [[SOLID 원칙 정복기] 2편: 단일 책임 원칙(SRP)으로 클래스 분리하기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-2)  
 ...
 - [[SOLID 원칙 정복기] 4편: 그 상속, 정말 괜찮을까? (LSP)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-4)
+- [[SOLID 원칙 정복기] 5편: 고객님, 여긴 관리자 구역입니다 (ISP)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-5)
 ---

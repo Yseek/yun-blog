@@ -136,5 +136,7 @@ void testWithMixedItem() {
 ---
 - [[SOLID 원칙 정복기] 1편: 첫걸음, 거대한 클래스 만들기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-1)  
 - [[SOLID 원칙 정복기] 2편: 단일 책임 원칙(SRP)으로 클래스 분리하기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-2)
-- [[SOLID 원칙 정복기] 3편: OCP로 신상 음료 출시하기 (feat. 추상화)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-3)
+- [[SOLID 원칙 정복기] 3편: OCP로 신상 음료 출시하기 (feat. 추상화)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-3)  
+...
+- [[SOLID 원칙 정복기] 5편: 고객님, 여긴 관리자 구역입니다 (ISP)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-5)
 ---
