@@ -112,3 +112,8 @@ public class VendingMachine {
 그래서 다음 포스팅은 거대한 클래스를 `SOLID`원칙에 따라 하나씩 리팩토링 하며 `좋은 코드`로 개선해나가는 여정을 시작할 것이다.
 
 그 첫 번째 단계로, `SOLID`의 `S`에 해당하는 __단일 책임 원칙(SRP, SIngle Responsibility Principle)__ 을 적용하여 `VendingMachine`의 과도한 책임을 분리해보겠다.
+
+---
+- [[SOLID 원칙 정복기] 2편: 단일 책임 원칙(SRP)으로 클래스 분리하기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-2)
+- [[SOLID 원칙 정복기] 3편: OCP로 신상 음료 출시하기 (feat. 추상화)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-3)
+---

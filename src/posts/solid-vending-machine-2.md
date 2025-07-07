@@ -6,7 +6,7 @@ tags: ['SOLID', '디자인패턴', '클린코드', '설계', 'SRP']
 
 [__지난 1편__](https://yseek.github.io/yun-blog/posts/solid-vending-machine-1)에서는 `SOLID` 원칙을 적용하기 전, 모든 기능이 하나의 거대한 클래스에 포함된 자판기 프로그램을 만들었다. 이 코드는 작동은 하지만, 유지보수와 확장이 어려운 __기술 부채(Technical Debt)__ 를 안고 있다.
 
-이번 게시글에서는 이 문제를 해결하기 위한 첫걸음으로, `SOLID`의 __'S'__, __단일 책임 원칙(SRP)__ 을 적용해 클래스를 깔끔하게 분리하는 과정을 다뤄보겠다.
+이번 포스팅에서는 이 문제를 해결하기 위한 첫걸음으로, `SOLID`의 __'S'__, __단일 책임 원칙(SRP)__ 을 적용해 클래스를 깔끔하게 분리하는 과정을 다뤄보겠다.
 
  ## SRP(단일 책임 원칙)란?
 
@@ -197,5 +197,7 @@ public void selectItem(String itemName) {
 
 
 ---
-- [[SOLID 원칙 정복기] 1편: 첫걸음, 거대한 클래스 만들기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-1)
+- [[SOLID 원칙 정복기] 1편: 첫걸음, 거대한 클래스 만들기](https://yseek.github.io/yun-blog/posts/solid-vending-machine-1)  
+...  
+- [[SOLID 원칙 정복기] 3편: OCP로 신상 음료 출시하기 (feat. 추상화)](https://yseek.github.io/yun-blog/posts/solid-vending-machine-3)
 ---
