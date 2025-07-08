@@ -1,16 +1,15 @@
 "use client";
 
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { PostPreview } from '@/components/PostPreview';
-import type { Post } from '@/lib/posts'; // 타입만 import
+import type { Post } from '@/lib/posts';
 
-// props로 posts를 받도록 수정
 export default function TagsContent({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const selectedTag = searchParams.get('q');
 
-  // allTags와 tagCounts는 props로 받은 posts를 기반으로 계산
   const allTags = [...new Set(posts.flatMap(post => post.tags))];
   const tagCounts: { [key: string]: number } = {};
   posts.forEach(post => {
@@ -22,6 +21,37 @@ export default function TagsContent({ posts }: { posts: Post[] }) {
   const filteredPosts = selectedTag
     ? posts.filter(post => post.tags.includes(selectedTag))
     : posts;
+
+  const [visibleCount, setVisibleCount] = useState(5);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const loadMore = useCallback(() => {
+    setVisibleCount(prevCount => prevCount + 5);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < filteredPosts.length) {
+          loadMore();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const currentObserverRef = observerRef.current;
+    if (currentObserverRef) {
+      observer.observe(currentObserverRef);
+    }
+
+    return () => {
+      if (currentObserverRef) {
+        observer.unobserve(currentObserverRef);
+      }
+    };
+  }, [loadMore, visibleCount, filteredPosts.length]);
+
+  const displayedPosts = filteredPosts.slice(0, visibleCount);
 
   return (
     <div className="py-12">
@@ -54,9 +84,10 @@ export default function TagsContent({ posts }: { posts: Post[] }) {
         ))}
       </div>
       <div className="space-y-8">
-        {filteredPosts.map(post => (
+        {displayedPosts.map(post => (
           <PostPreview key={post.id} post={post} />
         ))}
+        <div ref={observerRef} style={{ height: '1px' }} />
       </div>
     </div>
   );

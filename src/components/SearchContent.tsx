@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { PostPreview } from '@/components/PostPreview';
-import type { Post } from '@/lib/posts'; // 타입만 import
+import type { Post } from '@/lib/posts';
 
 export default function SearchContent({ posts }: { posts: Post[] }) {
   const router = useRouter();
@@ -11,7 +11,44 @@ export default function SearchContent({ posts }: { posts: Post[] }) {
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
 
-  // 동적 검색을 위한 디바운싱
+  const filteredPosts = query
+    ? posts.filter(post =>
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.summary.toLowerCase().includes(query.toLowerCase())
+      )
+    : posts;
+
+  const [visibleCount, setVisibleCount] = useState(5);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const loadMore = useCallback(() => {
+    setVisibleCount(prevCount => prevCount + 5);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < filteredPosts.length) {
+          loadMore();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const currentObserverRef = observerRef.current;
+    if (currentObserverRef) {
+      observer.observe(currentObserverRef);
+    }
+
+    return () => {
+      if (currentObserverRef) {
+        observer.unobserve(currentObserverRef);
+      }
+    };
+  }, [loadMore, visibleCount, filteredPosts.length]);
+
+  const displayedPosts = filteredPosts.slice(0, visibleCount);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
@@ -21,18 +58,11 @@ export default function SearchContent({ posts }: { posts: Post[] }) {
         params.delete('q');
       }
       router.replace(`${pathname}?${params.toString()}`);
+      setVisibleCount(5);
     }, 300);
 
     return () => clearTimeout(timer);
   }, [query, pathname, router]);
-
-  // 검색어가 있으면 필터링하고, 없으면 모든 게시물을 보여줍니다.
-  const filteredPosts = query
-    ? posts.filter(post =>
-        post.title.toLowerCase().includes(query.toLowerCase()) ||
-        post.summary.toLowerCase().includes(query.toLowerCase())
-      )
-    : posts;
 
   return (
     <div className="py-12">
@@ -55,16 +85,16 @@ export default function SearchContent({ posts }: { posts: Post[] }) {
           />
         </div>
       </div>
-      
+
       <div className="space-y-8">
-        {filteredPosts.length > 0 ? (
-          filteredPosts.map(post => (
+        {displayedPosts.length > 0 ? (
+          displayedPosts.map(post => (
             <PostPreview key={post.id} post={post} />
           ))
         ) : (
-          // 검색어가 있는데 결과가 없을 때만 "결과 없음" 메시지를 보여줍니다.
           query && <p className="text-center">검색 결과가 없습니다.</p>
         )}
+        <div ref={observerRef} style={{ height: '1px' }} />
       </div>
     </div>
   );
